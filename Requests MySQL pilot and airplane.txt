@@ -21,7 +21,7 @@
   "airplane_id" – идентификатор самолета
   "flight_date" – дата полетов
   
-  Запросы MySQL:
+Запросы MySQL:
   
 CREATE DATABASE Flying;
 SHOW DATABASES;
