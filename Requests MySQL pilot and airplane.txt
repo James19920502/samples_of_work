@@ -1,0 +1,73 @@
+В базе данных авиакомпании компании есть три таблицы. 
+Исходя из описания таблиц базы данных, составьте SQL-запрос, в котором 
+необходимо вывести Фамилию Имя и количество полетов сделанных на самолетах модели Boeing.
+ 
+Таблицы базы данных:
+Таблица "pilot" содержит информацию о пилотах.
+Поля таблицы:
+  "pilot_id" – уникальный идентификатор пилота
+  "first_name" – имя пилота
+  "last_name" – фамилия пилота
+ 
+Таблица "airplane" содержит информацию о моделях самолетов.
+Поля таблицы:
+  "airplane_id" – уникальный идентификатор самолета
+  "model" – модель самолета
+ 
+Таблица "airplane_pilot" содержит информацию о полетах.
+Поля таблицы:
+  "id" – уникальный идентификатор записи
+  "pilot_id" – идентификатор пилота
+  "airplane_id" – идентификатор самолета
+  "flight_date" – дата полетов
+  
+  Запросы MySQL:
+  
+CREATE TABLE pilot (
+pilot_id INT(1) NOT NULL PRIMARY KEY,
+first_name VARCHAR(25) NULL,
+last_name VARCHAR(25) NULL);
+DESC pilot;
+ 
+INSERT INTO pilot VALUES (1, "Сергей", "Шарапов");
+INSERT INTO pilot VALUES (2, "Александр", "Сыч");
+INSERT INTO pilot VALUES (3, "Маша", "Сыч");
+INSERT INTO pilot VALUES (4, "Дима", "Валиев");
+INSERT INTO pilot VALUES (5, "Ира", "Смирнова");
+SELECT * FROM pilot;
+ 
+CREATE TABLE airplane_pilot (
+id INT(1) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+pilot_id INT(1) NULL,
+airplane_id INT(1) NULL,
+flight_date DATE);
+DESC airplane_pilot;
+ 
+INSERT INTO airplane_pilot (pilot_id, airplane_id) VALUES (1, 1);
+INSERT INTO airplane_pilot (pilot_id, airplane_id) VALUES (2, 1);
+INSERT INTO airplane_pilot (pilot_id, airplane_id) VALUES (1, 1);
+INSERT INTO airplane_pilot (pilot_id, airplane_id) VALUES (3, 1);
+INSERT INTO airplane_pilot (pilot_id, airplane_id) VALUES (4, 2);
+INSERT INTO airplane_pilot (pilot_id, airplane_id) VALUES (5, 2);
+INSERT INTO airplane_pilot (pilot_id, airplane_id) VALUES (4, 2);
+INSERT INTO airplane_pilot (pilot_id, airplane_id) VALUES (1, 1);
+SELECT * from airplane_pilot;
+
+CREATE TABLE airplane (
+airplane_id INT(1) NULL,
+model VARCHAR (25) NULL);
+DESC airplane;
+
+INSERT INTO airplane VALUES (1, "Boeing");
+INSERT INTO airplane VALUES (2, "Сухой");
+INSERT INTO airplane VALUES (3, "Airbus");
+Select * FROM airplane;
+
+SELECT airplane_id, COUNT(airplane_id) as "Полеты на луну" FROM airplane_pilot GROUP BY airplane_id;
+
+SELECT pilot.pilot_id, pilot.first_name, pilot.last_name, airplane_pilot.pilot_id, COUNT(airplane_pilot.airplane_id) AS "Полеты боингов"
+FROM pilot
+left JOIN airplane_pilot
+ON pilot.pilot_id=airplane_pilot.id
+WHERE airplane_id=1
+GROUP BY first_name;
